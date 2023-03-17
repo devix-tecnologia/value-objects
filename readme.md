@@ -14,7 +14,15 @@ Funções auxiliares:
 import {nome-da-funcao} from '@devix/value-objects'
 ```
 
-Objetos:
+Objetos de valor:
+
+- Telefone
+- Endereço
+- Email
+- Nome (Pessoa Física)
+- CPF/CNPJ
+- Dinheiro
+- CEP
 
 ```ts
 
