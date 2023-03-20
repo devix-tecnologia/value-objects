@@ -3,8 +3,9 @@
 ## Exemplo de usos:
 
 ```ts
-// Usando strings
+// Usando strings - Desconsidera qq caracter não numérico
 new Telefone('27 97643-0476')
+new Telefone('(27) 97643-0476')
 new Telefone('5527 97643-0476')
 new Telefone('+55 27 97643-0476')
 new Telefone('5527976430476')
