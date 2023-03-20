@@ -24,7 +24,7 @@ tel = new Telefone('27 97643-0476')
 tel.country // 'BR'
 tel.estate // 'ES'
 tel.isValid() // true
-tel.isValid(true) // Raises Exception
+tel.isValid({ raiseException: true }) // Raises Exception
 tel.formatted // +55 27 97643-0476
 tel.onlyNumbers // 5527976430476
 

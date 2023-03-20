@@ -82,9 +82,12 @@ describe('INVALIDOS - Formata Telefone a partir de string', () => {
     )
   })
 
-  test('Cod país e DDD(Inválido) e número', () => {
+  test('Cod país e DDD(Inválido) e número VALID com Exception', () => {
     const tel = new Telefone('551097643-0565')
     expect(tel.isValid()).toBe(false)
+    expect(() => tel.isValid({ raiseException: true })).toThrowError(
+      'Invalid phone number'
+    )
   })
 
   test('Numero invalido throw error no parsing', () => {

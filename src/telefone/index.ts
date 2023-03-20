@@ -77,8 +77,8 @@ class Telefone {
     return null
   }
 
-  isValid(raiseException: boolean = false) {
-    if (raiseException && !this._isValid) {
+  isValid(config: { raiseException: boolean } = { raiseException: false }) {
+    if (config.raiseException && !this._isValid) {
       throw new Error('Invalid phone number')
     }
     return this._isValid
