@@ -1,5 +1,5 @@
-import codPaises from './country_codes.json'
-import DDD from './ddd.json'
+import { countryCodes } from './country_codes'
+import { DDD } from './ddd'
 
 /**
  * Cria objeto de valor para número de telefone.
@@ -9,101 +9,97 @@ import DDD from './ddd.json'
  * Desconsidera espaços e qq caracter não numérico
  */
 class Telefone {
-  private _numeroPrincipal: string
-  private _codArea: string
-  private _codPais: string
+  private _phoneNum: string
+  private _areaCode: string
+  private _countryCode: string
   private _isValid: boolean
 
   constructor(
-    numero: string | { cod_pais: string; cod_area: string; numero: string }
+    phoneNum:
+      | string
+      | { countryCode: string; areaCode: string; phoneNum: string }
   ) {
-    if (typeof numero === 'string') {
-      const tel = numero.replace(/[^\d]+/g, '')
+    if (typeof phoneNum === 'string') {
+      let tel = phoneNum.replace(/[^\d]+/g, '')
+      if ((tel.length === 12 || tel.length === 11) && tel[0] === '0') {
+        tel = tel.slice(1)
+      }
       this._isValid = false
       if (tel.length === 10 || tel.length === 11) {
-        this._codPais = '55'
-        this._codArea = tel.slice(0, 2)
-        this._numeroPrincipal = tel.slice(2)
-        this._isValid = this.validaDDD()
+        this._countryCode = '55'
+        this._areaCode = tel.slice(0, 2)
+        this._phoneNum = tel.slice(2)
+        this._isValid = this.isDDDValid()
       } else if (tel.length === 12 || tel.length === 13) {
-        this._codPais = tel.slice(0, 2)
-        this._codArea = tel.slice(2, 4)
-        this._numeroPrincipal = tel.slice(4)
-        this._isValid = this.validaDDD() && this._codPais === '55'
+        this._countryCode = tel.slice(0, 2)
+        this._areaCode = tel.slice(2, 4)
+        this._phoneNum = tel.slice(4)
+        this._isValid = this.isDDDValid() && this._countryCode === '55'
       } else {
         throw new Error(
-          'Não foi possível fazer o parsing do número. Tente cadastrar usando o formato { cod_pais: string; cod_area: string; numero: string } '
+          'Could not parse phone number from string. Try creating the record using and object { countryCode: string; areaCode: string; number: string }'
         )
       }
     } else {
-      this._codPais = numero.cod_pais.replace(/[^\d]+/g, '')
-      this._codArea = numero.cod_area.replace(/[^\d]+/g, '')
-      this._numeroPrincipal = numero.numero.replace(/[^\d]+/g, '')
-      this._isValid = this.validaDDD() && this.validaCodPais()
+      this._countryCode = phoneNum.countryCode.replace(/[^\d]+/g, '')
+      this._areaCode = phoneNum.areaCode.replace(/[^\d]+/g, '')
+      this._phoneNum = phoneNum.phoneNum.replace(/[^\d]+/g, '')
+      if (this._countryCode === '55') {
+        this._isValid = this.isDDDValid() && this.isCountryCodeValid()
+      } else {
+        this._isValid = this.isCountryCodeValid()
+      }
     }
   }
 
-  get formatado() {
-    if (!this._isValid) return 'Telefone inválido'
+  get formatted() {
+    if (!this._isValid) return 'INVALID'
 
-    const num = this._numeroPrincipal.split('')
+    const num = this._phoneNum.split('')
     const lastDigits = num.splice(-4, 4)
-    return `+${this._codPais} ${this._codArea} ${num.join(
+    return `+${this._countryCode} ${this._areaCode} ${num.join(
       ''
     )}-${lastDigits.join('')}`
   }
 
-  get somenteNumero() {
-    if (!this._isValid) return 'Telefone inválido'
+  get onlyNumbers() {
+    if (!this._isValid) return 'INVALID'
 
-    return `${this._codPais}${this._codArea}${this._numeroPrincipal}`
+    return `${this._countryCode}${this._areaCode}${this._phoneNum}`
   }
 
-  get somenteNumeroSemPais() {
-    if (!this._isValid) return 'Telefone inválido'
-
-    return `${this._codArea}${this._numeroPrincipal}`
+  get country() {
+    return countryCodes[this._countryCode].code
   }
 
-  get paisOrigem() {
-    return codPaises[this._codPais].name
+  get estate() {
+    if (this._countryCode === '55') return DDD[this._areaCode]
+    return null
   }
 
-  get estadoOrigem() {
-    return DDD[this._codArea]
-  }
-
-  toString() {
-    return this.formatado
-  }
-
-  valueOf() {
-    return this.somenteNumero
-  }
-
-  valido(raiseException: boolean = false) {
+  isValid(raiseException: boolean = false) {
     if (raiseException && !this._isValid) {
-      throw new Error('Número de telefone inválido')
+      throw new Error('Invalid phone number')
     }
     return this._isValid
   }
 
-  igual(outro_tel: Telefone | string): boolean {
+  equals(otherPhone: Telefone | string): boolean {
     if (!this._isValid) return false
 
-    if (outro_tel instanceof Telefone) {
-      return this.somenteNumero === outro_tel.somenteNumero
+    if (otherPhone instanceof Telefone) {
+      return this.onlyNumbers === otherPhone.onlyNumbers
     } else {
-      return this.somenteNumero === new Telefone(outro_tel).somenteNumero
+      return this.onlyNumbers === new Telefone(otherPhone).onlyNumbers
     }
   }
 
-  private validaDDD() {
-    return DDD[this._codArea] !== undefined
+  private isDDDValid() {
+    return DDD[this._areaCode] !== undefined
   }
 
-  private validaCodPais() {
-    return codPaises[this._codPais] !== undefined
+  private isCountryCodeValid() {
+    return countryCodes[this._countryCode] !== undefined
   }
 }
 
