@@ -2,16 +2,16 @@ import { Telefone } from './index'
 
 describe('VALIDOS - Formata Telefone a partir de string', () => {
   test('Somente DDD e número', () => {
-    const tel = new Telefone('27 97643-0565')
-    expect(tel.onlyNumbers).toBe('5527976430565')
-    expect(tel.formatted).toBe('+55 27 97643-0565')
+    const tel = new Telefone('11 9 8273 1182')
+    expect(tel.onlyNumbers).toBe('5511982731182')
+    expect(tel.formatted).toBe('+55 11 98273-1182')
     expect(tel.isValid()).toBe(true)
     expect(tel.country).toBe('BR')
-    expect(tel.estate).toBe('ES')
+    expect(tel.estate).toBe('SP')
   })
 
   test('DDD COM 0 na frente e número', () => {
-    const tel = new Telefone('027 97643-0565')
+    const tel = new Telefone('(027) 97643-0565')
     expect(tel.onlyNumbers).toBe('5527976430565')
     expect(tel.formatted).toBe('+55 27 97643-0565')
     expect(tel.isValid()).toBe(true)
