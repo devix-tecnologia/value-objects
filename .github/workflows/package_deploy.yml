@@ -38,8 +38,8 @@ jobs:
           npm install
           npm test
 
-      # - name: Release
+      - name: Release
 
-      #   run: |
-      #     npm ci
-      #     npx semantic-release
+        run: |
+          npm ci
+          npx semantic-release
