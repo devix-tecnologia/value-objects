@@ -1,6 +1,6 @@
 import { countryCodes } from './country_codes'
 import { DDD } from './ddd'
-
+import { IBaseClassNumbers } from '../types/base_class'
 /**
  * Cria objeto de valor para número de telefone.
  * Valida DDD e código do país.
@@ -8,7 +8,7 @@ import { DDD } from './ddd'
  * Aceita formatos como: 27 97645-5555 ou 55 27 97645-5555.
  * Desconsidera espaços e qq caracter não numérico
  */
-class Telefone {
+class Telefone implements IBaseClassNumbers {
   private _phoneNum: string
   private _areaCode: string
   private _countryCode: string
