@@ -1,13 +1,13 @@
 interface IBaseClassNumbers {
   get formatted(): string
   get onlyNumbers(): string
-  isValid(): boolean
+  isValid(config: { raiseException: boolean }): boolean
   equals(other: any): boolean
 }
 
 interface IBaseClassText {
   get formatted(): string
-  isValid(): boolean
+  isValid(config: { raiseException: boolean }): boolean
   equals(other: any): boolean
 }
 

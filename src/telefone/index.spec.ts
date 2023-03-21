@@ -97,7 +97,7 @@ describe('INVALIDOS - Formata Telefone a partir de string', () => {
   })
 })
 
-describe('equalsidade', () => {
+describe('igualdade', () => {
   test('Testa várias comparações de equalsidade', () => {
     const tel = new Telefone('55 27 98643-0565')
 

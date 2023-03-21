@@ -53,7 +53,7 @@ class Telefone implements IBaseClassNumbers {
   }
 
   get formatted() {
-    if (!this._isValid) return 'INVALID'
+    this.isValid({ raiseException: true })
 
     const num = this._phoneNum.split('')
     const lastDigits = num.splice(-4, 4)
@@ -63,7 +63,7 @@ class Telefone implements IBaseClassNumbers {
   }
 
   get onlyNumbers() {
-    if (!this._isValid) return 'INVALID'
+    this.isValid({ raiseException: true })
 
     return `${this._countryCode}${this._areaCode}${this._phoneNum}`
   }
