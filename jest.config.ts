@@ -6,6 +6,9 @@ const config: JestConfigWithTsJest = {
   testMatch: ['**/src/**/*.spec.ts'],
   resetMocks: true,
   verbose: true,
+  moduleNameMapper: {
+    "^(\\.\\.?\\/.+)\\.js$": "$1",
+  },
   transform: {
     // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
     // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
