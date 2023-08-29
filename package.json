@@ -1,6 +1,6 @@
 {
   "name": "@devix/value-objects",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Coleção de objetos de valores para implementação em sistemas",
   "main": "./dist/index.js",
   "types": "./dist/cjs/types/index.d.ts",
