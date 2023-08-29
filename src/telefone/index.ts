@@ -1,5 +1,5 @@
-import { countryCodes } from './country_codes'
-import { DDD } from './ddd'
+import { countryCodes } from './country_codes.js'
+import { DDD } from './ddd.js'
 import { IBaseClassNumbers } from '../types/base_class'
 /**
  * Cria objeto de valor para número de telefone.
