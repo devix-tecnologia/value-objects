@@ -1,7 +1,7 @@
 import { CpfCnpj } from './index'
 
 describe('CPF', () => {
-  test('números INVALIDs', () => {
+  test('números INVALIDOS', () => {
     expect(new CpfCnpj('00000000000').isValid()).toBeFalsy()
     expect(new CpfCnpj('11111111111').isValid()).toBeFalsy()
     expect(new CpfCnpj('22222222222').isValid()).toBeFalsy()
