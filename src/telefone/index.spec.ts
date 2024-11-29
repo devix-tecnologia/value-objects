@@ -28,6 +28,15 @@ describe('VALIDOS - Formata Telefone a partir de string', () => {
     expect(tel.estate).toBe('ES')
   })
 
+  test('DDD SEM 0 na frente e número com 8 digitos', () => {
+    const tel = new Telefone('2735577789')
+    expect(tel.onlyNumbers).toBe('552735577789')
+    expect(tel.formatted).toBe('+55 27 3557-7789')
+    expect(tel.isValid()).toBe(true)
+    expect(tel.country).toBe('BR')
+    expect(tel.estate).toBe('ES')
+  })
+
   test('Numero completo com +', () => {
     const tel = new Telefone('+55 11 97643-0565')
     expect(tel.onlyNumbers).toBe('5511976430565')
@@ -76,8 +85,7 @@ describe('INVALIDOS - Formata Telefone a partir de string', () => {
   })
 
   test('String com cód pais não Brasil', () => {
-    const tel = new Telefone('00 27 98643-0565')
-    expect(() => new Telefone('55279997643-0565')).toThrowError(
+    expect(() => new Telefone('55279997643-0565')).toThrow(
       'Could not parse phone number from string. Try creating the record using and object { countryCode: string; areaCode: string; number: string }'
     )
   })
@@ -85,13 +93,13 @@ describe('INVALIDOS - Formata Telefone a partir de string', () => {
   test('Cod país e DDD(Inválido) e número VALID com Exception', () => {
     const tel = new Telefone('551097643-0565')
     expect(tel.isValid()).toBe(false)
-    expect(() => tel.isValid({ raiseException: true })).toThrowError(
+    expect(() => tel.isValid({ raiseException: true })).toThrow(
       'Invalid phone number'
     )
   })
 
   test('Numero invalido throw error no parsing', () => {
-    expect(() => new Telefone('55279997643-0565')).toThrowError(
+    expect(() => new Telefone('55279997643-0565')).toThrow(
       'Could not parse phone number from string. Try creating the record using and object { countryCode: string; areaCode: string; number: string }'
     )
   })
