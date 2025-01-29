@@ -15,8 +15,6 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-workflow_dispatch:
-
 jobs:
   test_deploy:
     runs-on: ubuntu-latest
