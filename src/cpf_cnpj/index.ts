@@ -1,4 +1,4 @@
-import { IBaseClassNumbers } from '../types/base_class'
+import { IBaseClassNumbers } from '../types/base_class.js'
 
 class CpfCnpj implements IBaseClassNumbers {
   private _docId: string

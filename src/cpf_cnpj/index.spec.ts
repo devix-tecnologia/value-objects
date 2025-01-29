@@ -1,4 +1,4 @@
-import { CpfCnpj } from './index'
+import { CpfCnpj } from './index.js'
 
 describe('CPF', () => {
   test('números INVALIDOS', () => {

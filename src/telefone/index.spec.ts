@@ -1,4 +1,4 @@
-import { Telefone } from './index'
+import { Telefone } from './index.js'
 
 describe('VALIDOS - Formata Telefone a partir de string', () => {
   test('Somente DDD e número', () => {
