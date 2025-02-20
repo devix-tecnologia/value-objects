@@ -1,74 +1,134 @@
-import { CpfCnpj } from './index.js'
+import { CpfCnpj } from './index.js';
 
-describe('CPF', () => {
-  test('números INVALIDOS', () => {
-    expect(new CpfCnpj('00000000000').isValid()).toBeFalsy()
-    expect(new CpfCnpj('11111111111').isValid()).toBeFalsy()
-    expect(new CpfCnpj('22222222222').isValid()).toBeFalsy()
-    expect(new CpfCnpj('33333333333').isValid()).toBeFalsy()
-    expect(new CpfCnpj('44444444444').isValid()).toBeFalsy()
-    expect(new CpfCnpj('55555555555').isValid()).toBeFalsy()
-    expect(new CpfCnpj('66666666666').isValid()).toBeFalsy()
-    expect(new CpfCnpj('77777777777').isValid()).toBeFalsy()
-    expect(new CpfCnpj('88888888888').isValid()).toBeFalsy()
-    expect(new CpfCnpj('99999999999').isValid()).toBeFalsy()
-    expect(new CpfCnpj('12345678909').isValid()).toBeFalsy()
-  })
+describe('CpfCnpj', () => {
+  describe('Validação de CPF', () => {
+    const numerosInvalidos = [
+      '00000000000', '11111111111', '22222222222',
+      '33333333333', '44444444444', '55555555555',
+      '66666666666', '77777777777', '88888888888',
+      '99999999999', '12345678909'
+    ];
 
-  test('rejeita valores vazios', () => {
-    const doc = new CpfCnpj('')
-    expect(doc.isValid()).toBeFalsy()
-    expect(doc.docType).toBe('INVALID')
-  })
+    test.each(numerosInvalidos)('rejeita o número bloqueado %s', (numero) => {
+      expect(new CpfCnpj(numero).isValid()).toBeFalsy();
+    });
 
-  test('valida strings formatadas', () => {
-    const doc = new CpfCnpj('295.379.955-93')
-    expect(doc.isValid()).toBeTruthy()
-    expect(doc.docType).toBe('CPF')
-  })
+    test('aceita CPF válido em diferentes formatos', () => {
+      const cpfValido = '29537995593';
+      const casos = [
+        cpfValido,                 // sem formatação
+        '295.379.955-93',         // formatado
+        '295$379\\n955...93',     // caracteres confusos
+      ];
 
-  test('valida tipo CNPJ', () => {
-    const doc = new CpfCnpj('77.361.576/4266-02')
-    expect(doc.isValid()).toBeTruthy()
-    expect(doc.docType).toBe('CNPJ')
-  })
+      casos.forEach(caso => {
+        const doc = new CpfCnpj(caso);
+        expect(doc.isValid()).toBeTruthy();
+        expect(doc.type).toBe('CPF');
+      });
+    });
+  });
 
-  test('valida strings não formatadas', () => {
-    expect(new CpfCnpj('29537995593').isValid()).toBeTruthy()
-  })
+  describe('Validação de CNPJ', () => {
+    test('aceita CNPJ válido em diferentes formatos', () => {
+      const doc = new CpfCnpj('77.361.576/4266-02');
+      expect(doc.isValid()).toBeTruthy();
+      expect(doc.type).toBe('CNPJ');
+    });
+  });
 
-  test('valida strings de caracteres confusas', () => {
-    expect(new CpfCnpj('295$379\n955...93').isValid()).toBeTruthy()
-  })
+  describe('Validação de entrada', () => {
+    test('rejeita valores vazios', () => {
+      const doc = new CpfCnpj('');
+      expect(doc.isValid()).toBeFalsy();
+      expect(doc.type).toBe('INVALID');
+    });
+  });
 
-  test('retorna o número não formatted', () => {
-    expect(new CpfCnpj('295.379.955-93').onlyNumbers).toEqual('29537995593')
-  })
+  describe('Formatação', () => {
+    test('formata CPF corretamente', () => {
+      const doc = new CpfCnpj('29537995593');
+      expect(doc.formatted).toBe('295.379.955-93');
+      expect(doc.onlyNumbers).toBe('29537995593');
+    });
 
-  test('retorna o número formattedr', () => {
-    expect(new CpfCnpj('29537995593').formatted).toEqual('295.379.955-93')
-  })
+    test('formata CNPJ corretamente', () => {
+      const doc = new CpfCnpj('77361576426602');
+      expect(doc.formatted).toBe('77.361.576/4266-02');
+      expect(doc.onlyNumbers).toBe('77361576426602');
+    });
+  });
 
-  test('CNPJ gera número formatted', () => {
-    const cnpj = CpfCnpj.newCnpj()
+  describe('Geração de documentos', () => {
+    describe('CPF', () => {
+      let cpf: CpfCnpj;
 
-    expect(cnpj.formatted!).toMatch(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
-    expect(new CpfCnpj(cnpj.formatted!).isValid()).toBeTruthy()
-    expect(new CpfCnpj(cnpj.formatted!).docType).toBe('CNPJ')
-  })
+      beforeEach(() => {
+        cpf = CpfCnpj.newCpf();
+      });
 
-  test('CPF gera número formatted', () => {
-    const cpf = CpfCnpj.newCpf()
+      test('gera CPF válido', () => {
+        expect(cpf.isValid()).toBeTruthy();
+        expect(cpf.type).toBe('CPF');
+      });
 
-    expect(cpf.formatted!).toMatch(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)
-    expect(new CpfCnpj(cpf.formatted!).isValid()).toBeTruthy()
-    expect(new CpfCnpj(cpf.formatted!).docType).toBe('CPF')
-  })
+      test('formata corretamente', () => {
+        expect(cpf.formatted).toMatch(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/);
+      });
+    });
 
-  test('igualdade de objetos', () => {
-    const cpf = new CpfCnpj('29537995593')
+    describe('CNPJ', () => {
+      let cnpj: CpfCnpj;
 
-    expect(cpf.equals('295.379.955-93')).toBeTruthy()
-    expect(cpf.equals('565.001.770-02')).toBeFalsy()
-  })
-})
+      beforeEach(() => {
+        cnpj = CpfCnpj.newCnpj();
+      });
+
+      test('gera CNPJ válido', () => {
+        expect(cnpj.isValid()).toBeTruthy();
+        expect(cnpj.type).toBe('CNPJ');
+      });
+
+      test('formata corretamente', () => {
+        expect(cnpj.formatted).toMatch(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/);
+      });
+    });
+  });
+
+  describe('Comparação', () => {
+    test('compara documentos corretamente', () => {
+      const doc = new CpfCnpj('29537995593');
+      
+      expect(doc.equals('295.379.955-93')).toBeTruthy();
+      expect(doc.equals('565.001.770-02')).toBeFalsy();
+    });
+
+    test('implementa toJSON corretamente', () => {
+      const doc = new CpfCnpj('295.379.955-93');
+      const json = doc.toJSON();
+
+      expect(json).toEqual({
+        type: 'CPF',
+        value: '29537995593',
+        formatted: '295.379.955-93',
+        isValid: true,
+        version: expect.any(String)
+      });
+    });
+
+    test('implementa toString corretamente', () => {
+      const doc = new CpfCnpj('29537995593');
+      expect(doc.toString()).toBe('295.379.955-93');
+    });
+  });
+
+  describe('Metadata', () => {
+    test('fornece informações corretas de metadata', () => {
+      const doc = new CpfCnpj('295.379.955-93');
+      
+      expect(doc.type).toBe('CPF');
+      expect(doc.version).toBeDefined();
+      expect(doc.validation).toContain('Módulo 11');
+    });
+  });
+});
