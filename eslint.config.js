@@ -27,6 +27,7 @@ export default [
     },
     rules: {
       ...tsPlugin.configs.recommended.rules, // Regras recomendadas do TypeScript
+      "@typescript-eslint/no-empty-object-type": "off", // Desativa a regra
     },
   },
 
@@ -38,4 +39,3 @@ export default [
     },
   },
 ];
-
