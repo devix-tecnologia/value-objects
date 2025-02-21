@@ -57,7 +57,6 @@ img.formatted      // Retorna a data URI completa (ex.: 'data:image/png;base64,i
 img.content        // Retorna apenas o conteúdo base64 (sem o prefixo data URI)
 img.format         // 'PNG' (ou outro formato detectado)
 img.formatInfo     // Objeto com informações sobre o formato (ex.: mimeType)
-img.asDataUri      // Retorna a string no formato data URI
 ```
 
 ### Métodos auxiliares

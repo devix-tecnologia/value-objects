@@ -37,13 +37,7 @@ class ImagemBase64 implements IBaseClassText {
   }
 
   get formatted(): string {
-    this.isValid({ raiseException: true })
-    return this.asDataUri
-  }
-
-  get content(): string {
-    this.isValid({ raiseException: true })
-    return this._isDataUri ? this._content.split(',')[1] : this._content
+    return this.DataUri
   }
 
   get format(): ImageFormat {
@@ -51,12 +45,17 @@ class ImagemBase64 implements IBaseClassText {
     return this._format
   }
 
+  get content(): string {
+    this.isValid({ raiseException: true })
+    return this._isDataUri ? this._content.split(',')[1] : this._content
+  }
+
   get formatInfo(): ImageFormatInfo {
     this.isValid({ raiseException: true })
     return imageFormats[this._format]
   }
 
-  get asDataUri(): string {
+  private get DataUri(): string {
     this.isValid({ raiseException: true })
     if (this._isDataUri) {
       return this._content
@@ -75,8 +74,8 @@ class ImagemBase64 implements IBaseClassText {
 
     return {
       type: this.type,
-      format: this.format,
       formatted: this.formatted,
+      format: this._format,
       isValid: true,
       version: this.version,
       mimeType: `image/${this._format.toLowerCase()}`,

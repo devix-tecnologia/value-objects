@@ -24,7 +24,7 @@ interface IBaseClassText extends IBaseClass<IBaseClassText> {}
 
 interface IBase64<T = unknown> extends IBaseClass<T> {
   get onlyContent(): string
-  get asDataUri(): string
+  get dataUri(): string
 }
 
 export type { IBaseClassNumbers, IBaseClassText, IBase64, ValidConfig }

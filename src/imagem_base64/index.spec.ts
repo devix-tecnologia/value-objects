@@ -33,6 +33,7 @@ describe('ImagemBase64', () => {
     test('rejeita string inválida', () => {
       const img = new ImagemBase64('não é base64')
       expect(img.isValid()).toBeFalsy()
+      expect(() => img.formatInfo).toThrow('Invalid base64 image')
       expect(() => img.format).toThrow('Invalid base64 image')
     })
 
@@ -51,12 +52,12 @@ describe('ImagemBase64', () => {
 
     test('converte base64 puro para data URI', () => {
       const img = new ImagemBase64(exemplos.png.puro)
-      expect(img.asDataUri).toBe(exemplos.png.dataUri)
+      expect(img.formatted).toBe(exemplos.png.dataUri)
     })
 
     test('mantém data URI original', () => {
       const img = new ImagemBase64(exemplos.jpeg.dataUri)
-      expect(img.asDataUri).toBe(exemplos.jpeg.dataUri)
+      expect(img.formatted).toBe(exemplos.jpeg.dataUri)
     })
   })
 
@@ -67,8 +68,8 @@ describe('ImagemBase64', () => {
 
       expect(json).toEqual({
         type: 'BASE64_IMAGE',
-        format: 'JPEG',
         formatted: exemplos.jpeg.dataUri,
+        format: 'JPEG',
         isValid: true,
         version: expect.any(String),
         mimeType: 'image/jpeg',
@@ -117,7 +118,6 @@ describe('ImagemBase64', () => {
       const img = new ImagemBase64('não é base64')
       expect(() => img.formatted).toThrow('Invalid base64 image')
       expect(() => img.content).toThrow('Invalid base64 image')
-      expect(() => img.asDataUri).toThrow('Invalid base64 image')
     })
 
     test('lança erro quando solicitado em isValid', () => {
