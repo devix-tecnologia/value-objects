@@ -1,5 +1,5 @@
 {
-  "name": "@devix/value-objects",
+  "name": "@devix-tecnologia/value-objects",
   "version": "2.1.1",
   "description": "Coleção de objetos de valores para implementação em sistemas.",
   "main": "./dist/index.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/devix-tecnologia/value-objects"
+    "url": "git+https://github.com/devix-tecnologia/value-objects.git"
   },
   "private": false,
   "keywords": [
@@ -32,7 +32,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "lint": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
-  "author": "Roberto Seba@Devix 2023",
+  "author": "Roberto Seba@Devix Tecnologia 2023",
   "license": "MIT",
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",

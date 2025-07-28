@@ -9,13 +9,13 @@ Biblioteca para manipulação e validação de objetos de valor em JavaScript/Ty
 ## Instalação
 
 ```js
-npm i @devix/value-objects
+npm i @devix-tecnologia/value-objects
 ```
 
 ## Importação
 
 ```js
-import { NomeDaClasse } from '@devix/value-objects'
+import { NomeDaClasse } from '@devix-tecnologia/value-objects'
 ```
 
 ## Objetos de valor disponíveis
