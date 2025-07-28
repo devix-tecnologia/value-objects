@@ -12,6 +12,12 @@
     "type": "git",
     "url": "https://github.com/devix-tecnologia/value-objects"
   },
+  "private": false,
+  "keywords": [
+    "value-objects",
+    "devix",
+    "devix-tecnologia"
+  ],
   "scripts": {
     "test": "jest",
     "clean": "rm -rf ./dist",
@@ -45,9 +51,6 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3"
-  },
-  "publishConfig": {
-    "registry": "https://verdaccio.paas.node07.de.vix.br/"
   },
   "exports": {
     ".": {
