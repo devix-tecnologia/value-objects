@@ -35,6 +35,7 @@
   "author": "Roberto Seba@Devix Tecnologia 2023",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.32.0",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.1",
     "@semantic-release/npm": "^12.0.1",
