@@ -17,7 +17,7 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: "./tsconfig.esm.json", // Ajuste aqui para o arquivo correto
+        project: "./tsconfig.lint.json", // Usando o tsconfig.lint.json para lint
         ecmaVersion: "latest",
         sourceType: "module",
       },
