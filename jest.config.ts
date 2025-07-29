@@ -1,20 +1,14 @@
-import type { JestConfigWithTsJest } from 'ts-jest'
+import { defineConfig } from 'vitest/config'
 
-const config: JestConfigWithTsJest = {
-  preset: 'ts-jest/presets/default-esm',
-  testEnvironment: 'node',
-  testMatch: ['**/src/**/*.spec.ts'],
-  resetMocks: true,
-  verbose: true,
-  extensionsToTreatAsEsm: ['.ts'],
-  globals: {
-    'ts-jest': {
-      useESM: true,
-      tsconfig: 'tsconfig.esm.json',
-    }
+export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'node',
+    include: ['src/**/*.{test,spec}.{js,ts}'],
+    coverage: {
+      reporter: ['text', 'json', 'html'],
+      include: ['src/**/*.ts'],
+      exclude: ['node_modules', '**/*.spec.ts'],
+    },
   },
-  moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
-  }
-}
-export default config
+})
