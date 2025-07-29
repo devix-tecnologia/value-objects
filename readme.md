@@ -1,42 +1,78 @@
-Aqui está o README.md atualizado da raiz do projeto, incluindo as informações do componente `ImagemBase64`:
+# @devix-tecnologia/value-objects
 
----
+Robust library for manipulation and validation of value objects in JavaScript/TypeScript. Provides utility classes for common data such as phone numbers, documents, and base64 images, ensuring consistent validation and formatting.
 
-# Devix - Objetos de Valores
+## Table of Contents
+- [Installation](#installation)
+- [Requirements](#requirements)
+- [Import](#import)
+- [Available Value Objects](#available-value-objects)
+- [Usage Examples](#usage-examples)
+- [To Do](#to-do)
+- [Contributing](#contributing)
+- [License](#license)
 
-Biblioteca para manipulação e validação de objetos de valor em JavaScript/TypeScript. Fornece classes utilitárias para lidar com dados comuns, como números de telefone, documentos e imagens em base64, garantindo validação e formatação consistentes.
+## Installation
 
-## Instalação
-
-```js
+```bash
 npm i @devix-tecnologia/value-objects
 ```
 
-## Importação
+## Requirements
+- Node.js >= 18 (Node.js 20 or higher recommended)
+- TypeScript >= 4.5 (optional, for typing)
 
-```js
-import { NomeDaClasse } from '@devix-tecnologia/value-objects'
+## Import
+
+```typescript
+import { ClassName } from '@devix-tecnologia/value-objects'
 ```
 
-## Objetos de valor disponíveis
+## Available Value Objects
 
-- <a href="./src/telefone/readme.md">Telefone</a> - Manipula e valida números de telefone, com suporte a DDD brasileiro e códigos de país.
-- <a href="./src/cpf_cnpj/readme.md">CPF/CNPJ</a> - Valida e formata documentos CPF e CNPJ.
-- <a href="./src/imagem_base64/readme.md">ImagemBase64</a> - Gerencia e valida imagens codificadas em base64, com detecção automática de formato.
+- [Phone](./src/telefone/readme.md): Manipulates and validates phone numbers, supporting Brazilian DDD and country codes.
+- [CPF/CNPJ](./src/cpf_cnpj/readme.md): Validates and formats CPF and CNPJ documents.
+- [Base64Image](./src/imagem_base64/readme.md): Manages and validates base64-encoded images, with automatic format detection.
 
-## A fazer
+## Usage Examples
 
-- Endereço
+```typescript
+import { Phone, CpfCnpj, Base64Image } from '@devix-tecnologia/value-objects'
+
+// Phone
+const tel = new Phone('+55 11 91234-5678')
+console.log(tel.isValid()) // true
+console.log(tel.format()) // +55 (11) 91234-5678
+
+// CPF/CNPJ
+const doc = new CpfCnpj('123.456.789-09')
+console.log(doc.isValid()) // true
+console.log(doc.format()) // 123.456.789-09
+
+// Base64Image
+const img = new Base64Image(base64String)
+console.log(img.isValid()) // true
+console.log(img.getFormat()) // 'png', 'jpeg', etc.
+```
+
+## To Do
+- Address
 - Email
-- Nome (Pessoa Física)
-- Dinheiro
-- CEP
+- Name (Individual)
+- Money
+- ZIP Code
+
+## Contributing
+Contributions are welcome! To contribute:
+1. Fork this repository
+2. Create a branch with your feature/fix
+3. Submit a Pull Request
+
+See the CONTRIBUTING.md file for more details.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for more information.
 
 ---
 
-### Notas sobre a atualização:
-1. **Adição do ImagemBase64**: Incluí o componente `ImagemBase64` na lista de objetos de valor, com um link para o README específico (`./src/imagem_base64/readme.md`) e uma breve descrição de sua funcionalidade.
-2. **Estrutura mantida**: Preservei o formato original do README, apenas expandindo a seção de objetos de valor.
-3. **Consistência**: Alinhei a descrição do `ImagemBase64` com o estilo das outras entradas (Telefone e CPF/CNPJ).
-
-Se precisar de mais ajustes ou quiser que eu inclua algo específico, como exemplos adicionais ou uma seção de "Funções auxiliares" mais detalhada, é só pedir!
+> **Note:** The `Base64Image` component has been included in the list of value objects, with a link to specific documentation and a description aligned with the standard of the other components.
