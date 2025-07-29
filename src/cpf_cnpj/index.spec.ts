@@ -1,4 +1,4 @@
-import { CpfCnpj } from './index.js'
+import { CpfCnpj } from './index'
 
 describe('CpfCnpj', () => {
   describe('Validação de CPF', () => {

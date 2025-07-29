@@ -1,4 +1,4 @@
-import { Telefone } from './index.js'
+import { Telefone } from './index'
 
 describe('Telefone', () => {
   describe('Telefones Brasileiros - via string', () => {

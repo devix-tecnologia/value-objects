@@ -1,4 +1,4 @@
-import { ImagemBase64 } from './index.js'
+import { ImagemBase64 } from './index'
 
 describe('ImagemBase64', () => {
   // Base64 real de imagens mínimas para teste
