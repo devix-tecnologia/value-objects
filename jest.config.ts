@@ -6,18 +6,16 @@ const config: JestConfigWithTsJest = {
   testMatch: ['**/src/**/*.spec.ts'],
   resetMocks: true,
   verbose: true,
+  extensionsToTreatAsEsm: ['.ts'],
+  globals: {
+    'ts-jest': {
+      useESM: true,
+      tsconfig: 'tsconfig.esm.json',
+    }
+  },
   moduleNameMapper: {
-    "^(\\.\\.?\\/.+)\\.js$": "$1",
+    '^(\\.{1,2}/.*)\\.js$': '$1',
   },
-  transform: {
-    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
-    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
-    '^.+\\.tsx?$': [
-      'ts-jest',
-      {
-        tsconfig: 'tsconfig.esm.json',
-      },
-    ],
-  },
+  transform: {},
 }
 export default config
