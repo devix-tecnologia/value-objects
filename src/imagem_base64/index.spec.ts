@@ -1,4 +1,5 @@
-import { ImagemBase64 } from './index'
+import { describe, it, expect } from 'vitest';
+import { ImagemBase64 } from './index';
 
 describe('ImagemBase64', () => {
   // Base64 real de imagens mínimas para teste
@@ -13,59 +14,58 @@ describe('ImagemBase64', () => {
       dataUri:
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
     },
-  }
+  };
 
   describe('Validação de formato', () => {
-    test('detecta JPEG corretamente', () => {
-      const img = new ImagemBase64(exemplos.jpeg.puro)
-      expect(img.isValid()).toBeTruthy()
-      expect(img.format).toBe('JPEG')
-      expect(img.formatInfo.mimeType).toBe('image/jpeg')
-    })
+    it('detecta JPEG corretamente', () => {
+      const img = new ImagemBase64(exemplos.jpeg.puro);
+      expect(img.isValid()).toBe(true);
+      expect(img.format).toBe('JPEG');
+      expect(img.formatInfo.mimeType).toBe('image/jpeg');
+    });
 
-    test('detecta PNG corretamente', () => {
-      const img = new ImagemBase64(exemplos.png.puro)
-      expect(img.isValid()).toBeTruthy()
-      expect(img.format).toBe('PNG')
-      expect(img.formatInfo.mimeType).toBe('image/png')
-    })
+    it('detecta PNG corretamente', () => {
+      const img = new ImagemBase64(exemplos.png.puro);
+      expect(img.isValid()).toBe(true);
+      expect(img.format).toBe('PNG');
+      expect(img.formatInfo.mimeType).toBe('image/png');
+    });
 
-    test('rejeita string inválida', () => {
-      const img = new ImagemBase64('não é base64')
-      expect(img.isValid()).toBeFalsy()
-      expect(() => img.formatInfo).toThrow('Invalid base64 image')
-      expect(() => img.format).toThrow('Invalid base64 image')
-    })
+    it('rejeita string inválida', () => {
+      const img = new ImagemBase64('invalid-base64');
+      expect(img.isValid()).toBe(false);
+      expect(() => img.formatInfo).toThrow(/Invalid base64 image/);
+      expect(() => img.format).toThrow(/Invalid base64 image/);
+    });
 
-    test('rejeita string vazia', () => {
-      const img = new ImagemBase64('')
-      expect(img.isValid()).toBeFalsy()
-    })
-  })
+    it('rejeita string vazia', () => {
+      const img = new ImagemBase64('');
+      expect(img.isValid()).toBe(false);
+    });
+  });
 
   describe('Data URI', () => {
-    test('reconhece data URI JPEG', () => {
-      const img = new ImagemBase64(exemplos.jpeg.dataUri)
-      expect(img.isValid()).toBeTruthy()
-      expect(img.format).toBe('JPEG')
-    })
+    it('reconhece data URI JPEG', () => {
+      const img = new ImagemBase64(exemplos.jpeg.dataUri);
+      expect(img.isValid()).toBe(true);
+      expect(img.format).toBe('JPEG');
+    });
 
-    test('converte base64 puro para data URI', () => {
-      const img = new ImagemBase64(exemplos.png.puro)
-      expect(img.formatted).toBe(exemplos.png.dataUri)
-    })
+    it('converte base64 puro para data URI', () => {
+      const img = new ImagemBase64(exemplos.png.puro);
+      expect(img.formatted).toBe(exemplos.png.dataUri);
+    });
 
-    test('mantém data URI original', () => {
-      const img = new ImagemBase64(exemplos.jpeg.dataUri)
-      expect(img.formatted).toBe(exemplos.jpeg.dataUri)
-    })
-  })
+    it('mantém data URI original', () => {
+      const img = new ImagemBase64(exemplos.jpeg.dataUri);
+      expect(img.formatted).toBe(exemplos.jpeg.dataUri);
+    });
+  });
 
   describe('Serialização', () => {
-    test('implementa toJSON corretamente', () => {
-      const img = new ImagemBase64(exemplos.jpeg.puro)
-      const json = img.toJSON()
-
+    it('implementa toJSON corretamente', () => {
+      const img = new ImagemBase64(exemplos.jpeg.puro);
+      const json = img.toJSON();
       expect(json).toEqual({
         type: 'BASE64_IMAGE',
         formatted: exemplos.jpeg.dataUri,
@@ -74,57 +74,55 @@ describe('ImagemBase64', () => {
         version: expect.any(String),
         mimeType: 'image/jpeg',
         isDataUri: false,
-      })
-    })
+      });
+    });
 
-    test('implementa toString corretamente', () => {
-      const img = new ImagemBase64(exemplos.jpeg.puro)
-      expect(img.toString()).toBe(exemplos.jpeg.dataUri)
-    })
-  })
+    it('implementa toString corretamente', () => {
+      const img = new ImagemBase64(exemplos.jpeg.puro);
+      expect(img.toString()).toBe(exemplos.jpeg.dataUri);
+    });
+  });
 
   describe('Comparação', () => {
-    test('compara imagens iguais', () => {
-      const img1 = new ImagemBase64(exemplos.jpeg.puro)
-      const img2 = new ImagemBase64(exemplos.jpeg.puro)
-      expect(img1.equals(img2)).toBeTruthy()
-    })
+    it('compara imagens iguais', () => {
+      const img1 = new ImagemBase64(exemplos.jpeg.puro);
+      const img2 = new ImagemBase64(exemplos.jpeg.puro);
+      expect(img1.equals(img2)).toBe(true);
+    });
 
-    test('compara imagem com string', () => {
-      const img = new ImagemBase64(exemplos.jpeg.puro)
-      expect(img.equals(exemplos.jpeg.puro)).toBeTruthy()
-    })
+    it('compara imagem com string', () => {
+      const img = new ImagemBase64(exemplos.jpeg.puro);
+      expect(img.equals(exemplos.jpeg.puro)).toBe(true);
+    });
 
-    test('compara imagens diferentes', () => {
-      const img1 = new ImagemBase64(exemplos.jpeg.puro)
-      const img2 = new ImagemBase64(exemplos.png.puro)
-      expect(img1.equals(img2)).toBeFalsy()
-    })
+    it('compara imagens diferentes', () => {
+      const img1 = new ImagemBase64(exemplos.jpeg.puro);
+      const img2 = new ImagemBase64(exemplos.png.puro);
+      expect(img1.equals(img2)).toBe(false);
+    });
 
-    test('compara com string inválida', () => {
-      const img = new ImagemBase64(exemplos.jpeg.puro)
-      expect(img.equals('não é base64')).toBeFalsy()
-    })
+    it('compara com string inválida', () => {
+      const img = new ImagemBase64(exemplos.jpeg.puro);
+      expect(img.equals('não é base64')).toBe(false);
+    });
 
-    test('compara data URI com base64 puro do mesmo conteúdo', () => {
-      const imgDataUri = new ImagemBase64(exemplos.jpeg.dataUri)
-      const imgPuro = new ImagemBase64(exemplos.jpeg.puro)
-      expect(imgDataUri.equals(imgPuro)).toBeTruthy()
-    })
-  })
+    it('compara data URI com base64 puro do mesmo conteúdo', () => {
+      const imgDataUri = new ImagemBase64(exemplos.jpeg.dataUri);
+      const imgPuro = new ImagemBase64(exemplos.jpeg.puro);
+      expect(imgDataUri.equals(imgPuro)).toBe(true);
+    });
+  });
 
   describe('Tratamento de Erros', () => {
-    test('lança erro ao acessar propriedades de imagem inválida', () => {
-      const img = new ImagemBase64('não é base64')
-      expect(() => img.formatted).toThrow('Invalid base64 image')
-      expect(() => img.content).toThrow('Invalid base64 image')
-    })
+    it('lança erro ao acessar propriedades de imagem inválida', () => {
+      const img = new ImagemBase64('invalid-base64');
+      expect(() => img.formatted).toThrow(/Invalid base64 image/);
+      expect(() => img.content).toThrow(/Invalid base64 image/);
+    });
 
-    test('lança erro quando solicitado em isValid', () => {
-      const img = new ImagemBase64('não é base64')
-      expect(() => img.isValid({ raiseException: true })).toThrow(
-        'Invalid base64 image'
-      )
-    })
-  })
-})
+    it('lança erro quando solicitado em isValid', () => {
+      const img = new ImagemBase64('invalid-base64');
+      expect(() => img.isValid({ raiseException: true })).toThrow(/Invalid base64 image/);
+    });
+  });
+});

@@ -10,7 +10,8 @@
     "declarationMap": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "types": ["vitest"]
   },
   "include": ["src/**/*"]
 }
