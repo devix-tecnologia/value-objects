@@ -30,7 +30,8 @@
     "prepack": "npm run build",
     "semantic-release": "semantic-release",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "lint": "eslint --fix --ext .ts,.tsx --no-error-on-unmatched-pattern --max-warnings=0 --config eslint.config.js src/"
+    "lint": "eslint --fix --ext .ts,.tsx --no-error-on-unmatched-pattern --max-warnings=0 --config eslint.config.js src/",
+    "publish": "npm publish --access public"
   },
   "author": "Roberto Seba@Devix Tecnologia 2023",
   "license": "MIT",
