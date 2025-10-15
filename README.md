@@ -33,11 +33,12 @@ import { ClassName } from '@devix-tecnologia/value-objects'
 - [Phone](./src/telefone/readme.md): Manipulates and validates phone numbers, supporting Brazilian DDD and country codes.
 - [CPF/CNPJ](./src/cpf_cnpj/readme.md): Validates and formats CPF and CNPJ documents.
 - [Base64Image](./src/imagem_base64/readme.md): Manages and validates base64-encoded images, with automatic format detection.
+- [Vehicle Plate](./src/placa_veiculo/readme.md): Validates and formats Brazilian vehicle plates, supporting both old (ABC1234) and Mercosul (ABC1D23) formats.
 
 ## Usage Examples
 
 ```typescript
-import { Phone, CpfCnpj, Base64Image } from '@devix-tecnologia/value-objects'
+import { Phone, CpfCnpj, Base64Image, PlacaVeiculo } from '@devix-tecnologia/value-objects'
 
 // Phone
 const tel = new Phone('+55 11 91234-5678')
@@ -53,6 +54,12 @@ console.log(doc.format()) // 123.456.789-09
 const img = new Base64Image(base64String)
 console.log(img.isValid()) // true
 console.log(img.getFormat()) // 'png', 'jpeg', etc.
+
+// Vehicle Plate
+const plate = new PlacaVeiculo('ABC1234')
+console.log(plate.isValid()) // true
+console.log(plate.formatted) // ABC-1234
+console.log(plate.format) // ANTIGA
 ```
 
 ## To Do
