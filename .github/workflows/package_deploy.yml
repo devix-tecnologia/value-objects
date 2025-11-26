@@ -25,6 +25,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: Instala pnpm
         run: npm install -g pnpm
@@ -33,12 +35,11 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: 🔨 Test project
-        run: |
-          pnpm install
-          pnpm test
+        run: pnpm test
 
       - name: Release
-        run: |
-          pnpm install
-          npx semantic-release
+        run: npx semantic-release
