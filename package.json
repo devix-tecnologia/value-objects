@@ -1,6 +1,6 @@
 {
   "name": "@devix-tecnologia/value-objects",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "Coleção de objetos de valores para implementação em sistemas.",
   "main": "./dist/index.js",
   "type": "module",
