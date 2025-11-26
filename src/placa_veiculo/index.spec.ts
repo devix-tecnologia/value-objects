@@ -45,6 +45,14 @@ describe('PlacaVeiculo', () => {
       expect(placa.isOldFormat()).toBe(false)
     })
 
+    it ('aceita placa Mercosul que estava dando erro', () => {
+      const placa = new PlacaVeiculo('odc8i63')
+      expect(placa.isValid()).toBe(true)
+      expect(placa.format).toBe('MERCOSUL')
+      expect(placa.isMercosul()).toBe(true)
+      expect(placa.isOldFormat()).toBe(false)
+    })
+
     it('aceita placa Mercosul com hífen', () => {
       const placa = new PlacaVeiculo('ABC-1D23')
       expect(placa.isValid()).toBe(true)
@@ -68,20 +76,10 @@ describe('PlacaVeiculo', () => {
       expect(placa.formatted).toBe('XYZ-9A87')
     })
 
-    it('rejeita placa Mercosul com letra I na 5ª posição', () => {
-      const placa = new PlacaVeiculo('ABC1I23')
-      expect(placa.isValid()).toBe(false)
-      expect(placa.format).toBe('INVALID')
-    })
-
-    it('rejeita placa Mercosul com letra O na 5ª posição', () => {
-      const placa = new PlacaVeiculo('ABC1O23')
-      expect(placa.isValid()).toBe(false)
-    })
-
-    it('rejeita placa Mercosul com letra Q na 5ª posição', () => {
-      const placa = new PlacaVeiculo('ABC1Q23')
-      expect(placa.isValid()).toBe(false)
+    it('aceita placa Mercosul com letra I na 5ª posição', () => {
+      const placa = new PlacaVeiculo('ODC8I63')
+      expect(placa.isValid()).toBe(true)
+      expect(placa.format).toBe('MERCOSUL')
     })
   })
 

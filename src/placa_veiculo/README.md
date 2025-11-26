@@ -6,7 +6,6 @@ Value Object para validação e formatação de placas de veículos brasileiros.
 
 - Valida placas no formato antigo (ABC1234) e Mercosul (ABC1D23)
 - Normaliza automaticamente a entrada (remove espaços, hífens e converte para maiúsculas)
-- Valida restrições do padrão Mercosul (letras I, O e Q não são permitidas na 5ª posição)
 - Fornece métodos para identificar o formato da placa
 
 ## Uso
@@ -42,8 +41,7 @@ console.log(placa1.equals(placa2)) // true
 
 ### Formato Mercosul (ABC1D23)
 - 3 letras + 1 número + 1 letra + 2 números
-- A letra na 5ª posição não pode ser I, O ou Q (para evitar confusão com números)
-- Exemplo: `ABC-1D23`, `XYZ9A87`
+- Exemplo: `ABC-1D23`, `XYZ9A87`, `ODC-8I63`
 
 ## API
 
@@ -70,7 +68,6 @@ console.log(placa1.equals(placa2)) // true
 - Remove espaços e hífens automaticamente
 - Converte para maiúsculas
 - Valida formato de acordo com padrão brasileiro
-- No formato Mercosul, valida que as letras I, O e Q não aparecem na 5ª posição
 - Rejeita placas muito curtas, muito longas ou com caracteres especiais
 
 ## Exemplos de Uso

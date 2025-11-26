@@ -14,9 +14,6 @@ class PlacaVeiculo implements IBaseClassText {
   private _isValid: boolean = false
   private static readonly VERSION = '1.0.0'
 
-  // Letras não permitidas no padrão Mercosul na 5ª posição
-  private static readonly MERCOSUL_FORBIDDEN_LETTERS = ['I', 'O', 'Q']
-
   constructor(plate: string) {
     const normalized = this.normalizePlate(plate)
     this._plate = normalized
@@ -40,11 +37,6 @@ class PlacaVeiculo implements IBaseClassText {
     }
 
     if (mercosulPattern.test(plate)) {
-      // Verifica se a letra na 5ª posição não é I, O ou Q
-      const fifthChar = plate[4]
-      if (PlacaVeiculo.MERCOSUL_FORBIDDEN_LETTERS.includes(fifthChar)) {
-        return 'INVALID'
-      }
       return 'MERCOSUL'
     }
 
