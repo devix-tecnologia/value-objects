@@ -1,7 +1,3 @@
-Aqui está o README.md gerado para o componente `ImagemBase64` com base no código fornecido:
-
----
-
 # ImagemBase64
 
 Componente para manipulação e validação de imagens codificadas em base64. Aceita tanto strings base64 puras quanto data URIs, detecta automaticamente o formato da imagem e fornece métodos para acessar suas propriedades.

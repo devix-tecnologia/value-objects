@@ -30,10 +30,10 @@ import { ClassName } from '@devix-tecnologia/value-objects'
 
 ## Available Value Objects
 
-- [Phone](./src/telefone/readme.md): Manipulates and validates phone numbers, supporting Brazilian DDD and country codes.
-- [CPF/CNPJ](./src/cpf_cnpj/readme.md): Validates and formats CPF and CNPJ documents.
-- [Base64Image](./src/imagem_base64/readme.md): Manages and validates base64-encoded images, with automatic format detection.
-- [Vehicle Plate](./src/placa_veiculo/readme.md): Validates and formats Brazilian vehicle plates, supporting both old (ABC1234) and Mercosul (ABC1D23) formats.
+- [Phone](./src/telefone/README.md): Manipulates and validates phone numbers, supporting Brazilian DDD and country codes.
+- [CPF/CNPJ](./src/cpf_cnpj/README.md): Validates and formats CPF and CNPJ documents.
+- [Base64Image](./src/imagem_base64/README.md): Manages and validates base64-encoded images, with automatic format detection.
+- [Vehicle Plate](./src/placa_veiculo/README.md): Validates and formats Brazilian vehicle plates, supporting both old (ABC1234) and Mercosul (ABC1D23) formats.
 
 ## Usage Examples
 
