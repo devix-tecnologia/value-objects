@@ -2,9 +2,9 @@
   "name": "@devix-tecnologia/value-objects",
   "version": "2.5.0",
   "description": "Coleção de objetos de valores para implementação em sistemas.",
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.js",
   "type": "module",
-  "types": "./dist/cjs/types/index.d.ts",
+  "types": "./dist/esm/types/index.d.ts",
   "files": [
     "dist/**/*",
     "LICENSE",
