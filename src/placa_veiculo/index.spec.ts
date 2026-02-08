@@ -45,7 +45,7 @@ describe('PlacaVeiculo', () => {
       expect(placa.isOldFormat()).toBe(false)
     })
 
-    it ('aceita placa Mercosul que estava dando erro', () => {
+    it('aceita placa Mercosul que estava dando erro', () => {
       const placa = new PlacaVeiculo('odc8i63')
       expect(placa.isValid()).toBe(true)
       expect(placa.format).toBe('MERCOSUL')
