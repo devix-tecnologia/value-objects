@@ -43,6 +43,14 @@ describe('CpfCnpj', () => {
       expect(doc.isValid()).toBe(true)
       expect(doc.type).toBe('CNPJ')
     })
+
+    it('aceita CNPJ alfanumérico (novo padrão Receita Federal)', () => {
+      const raw = '12ABC345678041'
+      const formatted = '12.ABC.345/6780-41'
+      const doc = new CpfCnpj(formatted)
+      expect(doc.isValid()).toBe(true)
+      expect(doc.type).toBe('CNPJ')
+    })
   })
 
   describe('Validação de entrada', () => {
