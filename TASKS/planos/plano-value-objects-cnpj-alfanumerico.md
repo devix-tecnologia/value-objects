@@ -192,6 +192,50 @@ return this._docId.replace(
 
 ---
 
+## Checklist de Alterações Executadas (task-001)
+
+| # | Alteração | Status | Arquivo | Detalhe |
+|---|-----------|--------|---------|---------|
+| 1.1 | Regex constructor: `[^\d]` → `[^0-9A-Za-z]` | ✅ | `index.ts:12` | Preserva letras na limpeza |
+| 1.2 | Validação length (11/14) | ✅ | `index.ts:14,17` | Inalterado |
+| 2.1 | Função `charToNumber()` | ✅ | `index.ts:4-10` | A=10..Z=35, case-insensitive |
+| 3.1 | `CpfVerifierDigits`: `parseInt` → `charToNumber` | ✅ | `index.ts:155` | DV CPF aceita letras |
+| 4.1 | `CnpjVerifierDigits`: `parseInt` → `charToNumber` | ✅ | `index.ts:169` | DV CNPJ aceita letras |
+| 5.1 | `isCnpjValid` com DV real | ✅ | `index.ts:137-150` | Crítico: antes só blocklist |
+| 5.2 | Regressão CNPJ numérico válido | ✅ | `index.spec.ts` | `11222333000181` aceito |
+| 5.3 | CNPJ alfanumérico com DV correto aceito | ✅ | `index.spec.ts` | `BR0DEV1XABCD02` aceito |
+| 6.1 | Blocklist: variantes alfanuméricas | ✅ | `index.ts:147-149` | Regex `^([0-9A-Za-z])\1{13}$` |
+| 7.1 | `formatted` CNPJ: regex alfanumérico | ✅ | `index.ts:50` | `[0-9A-Za-z]` posições 1-12 |
+| 7.2 | `formatted` CPF: regex alfanumérico | ✅ | `index.ts:45` | `[0-9A-Za-z]` posições 1-9 |
+| 8.1 | `newCnpj`: sortear alfanumérico | ✅ | `index.ts:104-110` | `A-Z` + `0-9` nas 12 primeiras |
+| 8.2 | `newCpf`: manter numérico | ✅ | `index.ts:93-101` | Inalterado (lei CPF não confirmada) |
+| 10.1 | `equals` com alfanumérico | ✅ | `index.spec.ts` | Funciona via string normalizada |
+
+### Testes Adicionados
+
+| Teste | Descrição | Resultado |
+|-------|-----------|-----------|
+| T1 | CNPJ alfanumérico válido (`BR0DEV1XABCD02`) | ✅ |
+| T2 | CNPJ alfanumérico com DV inválido | ✅ |
+| T3 | CNPJ alfanumérico minúsculas | ✅ |
+| T4 | CNPJ alfanumérico formatado | ✅ |
+| T5 | Formatação CNPJ alfanumérico | ✅ |
+| T6 | Blocklist caracteres repetidos (`AAAAAAAAAAAAAA`) | ✅ |
+| T7 | `equals` com CNPJ alfanumérico | ✅ |
+| T8 | Regressão CNPJ numérico | ✅ |
+| T9 | CPF com letras (DV falha) | ✅ |
+
+### Publicação (Pendente)
+
+| # | Passo | Status |
+|---|-------|--------|
+| P1 | `pnpm test` | ✅ 96 testes passando |
+| P2 | `pnpm build` | ✅ Sem erros |
+| P3 | Publicar versão `2.6.0` | ⏳ Pendente |
+| P4 | Atualizar `CHANGELOG.md` | ⏳ Pendente |
+
+---
+
 ## Observação
 
 > Este plano não executa alterações, apenas descreve as etapas e os arquivos a serem revisados/modificados. Aguardar análise e aprovação do gerente de projeto antes de qualquer execução.
