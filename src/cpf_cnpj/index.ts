@@ -9,7 +9,9 @@ class CpfCnpj implements IBaseClassNumbers {
   private static readonly VERSION = '1.0.0'
 
   constructor(numDoc: string | number) {
-    const doc = String(numDoc).replace(/[^a-zA-Z0-9]+/g, '').toUpperCase()
+    const doc = String(numDoc)
+      .replace(/[^a-zA-Z0-9]+/g, '')
+      .toUpperCase()
     this._docId = doc
     if (doc.length === 11 && this.isCpfValid()) {
       this._docType = 'CPF'
