@@ -26,7 +26,7 @@ describe('CpfCnpj', () => {
       const casos = [
         cpfValido, // sem formatação
         '295.379.955-93', // formatado
-        '295$379\\n955...93', // caracteres confusos
+        '295$379_955...93', // caracteres confusos (sem letras para preservar CPF numérico)
       ]
 
       casos.forEach((caso) => {
@@ -42,6 +42,61 @@ describe('CpfCnpj', () => {
       const doc = new CpfCnpj('12.345.678/0001-95') // Valid CNPJ
       expect(doc.isValid()).toBe(true)
       expect(doc.type).toBe('CNPJ')
+    })
+  })
+
+  describe('CNPJ Alfanumérico (task-082)', () => {
+    it('aceita CNPJ alfanumérico válido', () => {
+      const doc = new CpfCnpj('BR0DEV1XABCD02')
+      expect(doc.isValid()).toBe(true)
+      expect(doc.type).toBe('CNPJ')
+    })
+
+    it('rejeita CNPJ alfanumérico com DV inválido', () => {
+      const doc = new CpfCnpj('BR0DEV1XABCD99')
+      expect(doc.isValid()).toBe(false)
+      expect(doc.type).toBe('INVALID')
+    })
+
+    it('aceita CNPJ alfanumérico em letras minúsculas', () => {
+      const doc = new CpfCnpj('br0dev1xabcd02')
+      expect(doc.isValid()).toBe(true)
+      expect(doc.type).toBe('CNPJ')
+    })
+
+    it('aceita CNPJ alfanumérico formatado', () => {
+      const doc = new CpfCnpj('BR.0DE.V1X/ABCD-02')
+      expect(doc.isValid()).toBe(true)
+      expect(doc.type).toBe('CNPJ')
+    })
+
+    it('formata CNPJ alfanumérico corretamente', () => {
+      const doc = new CpfCnpj('BR0DEV1XABCD02')
+      expect(doc.formatted).toBe('BR.0DE.V1X/ABCD-02')
+      expect(doc.onlyNumbers).toBe('BR0DEV1XABCD02')
+    })
+
+    it('rejeita CNPJ alfanumérico com caracteres repetidos (blocklist)', () => {
+      const doc = new CpfCnpj('AAAAAAAAAAAAAA')
+      expect(doc.isValid()).toBe(false)
+    })
+
+    it('compara CNPJ alfanumérico via equals', () => {
+      const doc = new CpfCnpj('BR0DEV1XABCD02')
+      expect(doc.equals('BR.0DE.V1X/ABCD-02')).toBe(true)
+      expect(doc.equals('BR0DEV1XABCD99')).toBe(false)
+    })
+
+    it('aceita CNPJ 100% numérico válido (regressão)', () => {
+      const doc = new CpfCnpj('11222333000181')
+      expect(doc.isValid()).toBe(true)
+      expect(doc.type).toBe('CNPJ')
+    })
+
+    it('rejeita CPF com letras (validação de DV falha para letras aleatórias)', () => {
+      const doc = new CpfCnpj('ABC52998224')
+      expect(doc.isValid()).toBe(false)
+      expect(doc.type).toBe('INVALID')
     })
   })
 
@@ -98,7 +153,7 @@ describe('CpfCnpj', () => {
       })
 
       it('formata corretamente', () => {
-        expect(cnpj.formatted).toMatch(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
+        expect(cnpj.formatted).toMatch(/^[0-9A-Za-z]{2}\.[0-9A-Za-z]{3}\.[0-9A-Za-z]{3}\/[0-9A-Za-z]{4}-\d{2}$/)
       })
     })
   })
