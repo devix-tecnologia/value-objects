@@ -9,7 +9,7 @@ documento = new CpfCnpj(<number>ou<string>)
 
 documento.isValid() // boolean
 
-documento.onlyNumbers // 63172446263 ou 12ABC345678041
+documento.value // 63172446263 ou 12ABC345678041
 
 documento.formatted // 631.724.462-63 ou 12.ABC.345/6780-41
 

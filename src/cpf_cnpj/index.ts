@@ -51,15 +51,20 @@ class CpfCnpj implements IBaseClassNumbers {
     )
   }
 
-  get onlyNumbers(): string {
+  get value(): string {
     this.isValid({ raiseException: true })
     return this._docId
+  }
+
+  /** @deprecated Use `value` instead */
+  get onlyNumbers(): string {
+    return this.value
   }
 
   toJSON(): object {
     return {
       type: this.type,
-      value: this.onlyNumbers,
+      value: this.value,
       formatted: this.formatted,
       isValid: this._isValid,
       version: this.version,
@@ -83,7 +88,7 @@ class CpfCnpj implements IBaseClassNumbers {
     try {
       const otherDoc =
         other instanceof CpfCnpj ? other : new CpfCnpj(other as string)
-      return this.onlyNumbers === otherDoc.onlyNumbers
+      return this.value === otherDoc.value
     } catch {
       return false
     }

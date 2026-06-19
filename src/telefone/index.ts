@@ -88,9 +88,14 @@ class Telefone implements IBaseClassNumbers {
     return `+${this._countryCode} ${this._areaCode} ${num.join('')}-${lastDigits.join('')}`
   }
 
-  get onlyNumbers(): string {
+  get value(): string {
     this.isValid({ raiseException: true })
     return `${this._countryCode}${this._areaCode}${this._phoneNum}`
+  }
+
+  /** @deprecated Use `value` instead */
+  get onlyNumbers(): string {
+    return this.value
   }
 
   get country(): string {
@@ -105,7 +110,7 @@ class Telefone implements IBaseClassNumbers {
   toJSON(): object {
     return {
       type: this.type,
-      value: this.onlyNumbers,
+      value: this.value,
       formatted: this.formatted,
       isValid: this._isValid,
       version: this.version,
@@ -131,7 +136,7 @@ class Telefone implements IBaseClassNumbers {
     try {
       const otherPhone =
         other instanceof Telefone ? other : new Telefone(other as string)
-      return this.onlyNumbers === otherPhone.onlyNumbers
+      return this.value === otherPhone.value
     } catch {
       return false
     }

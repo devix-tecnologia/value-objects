@@ -76,7 +76,7 @@ describe('CpfCnpj', () => {
     it('formata CPF corretamente', () => {
       const doc = new CpfCnpj('29537995593')
       expect(doc.formatted).toBe('295.379.955-93')
-      expect(doc.onlyNumbers).toBe('29537995593')
+      expect(doc.value).toBe('29537995593')
     })
 
     it('formata CNPJ corretamente', () => {
@@ -88,7 +88,12 @@ describe('CpfCnpj', () => {
     it('formata CNPJ alfanumérico corretamente', () => {
       const doc = new CpfCnpj('12ABC345678041')
       expect(doc.formatted).toBe('12.ABC.345/6780-41')
-      expect(doc.onlyNumbers).toBe('12ABC345678041')
+      expect(doc.value).toBe('12ABC345678041')
+    })
+
+    it('retorna value e onlyNumbers com mesmo conteúdo (backward compat)', () => {
+      const doc = new CpfCnpj('12.ABC.345/6780-41')
+      expect(doc.value).toBe(doc.onlyNumbers)
     })
   })
 

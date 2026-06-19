@@ -17,7 +17,9 @@ interface IBaseClass<T> extends IMetadata {
 }
 
 interface IBaseClassNumbers extends IBaseClass<IBaseClassNumbers> {
+  /** @deprecated Use `value` instead — `onlyNumbers` pode conter letras (CNPJ alfanumérico) */
   get onlyNumbers(): string
+  get value(): string
 }
 
 interface IBaseClassText extends IBaseClass<IBaseClassText> {}

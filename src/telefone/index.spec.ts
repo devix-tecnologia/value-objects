@@ -8,7 +8,7 @@ describe('Telefone', () => {
         descricao: 'Somente DDD e número (9 dígitos)',
         entrada: '11 9 8273 1182',
         esperado: {
-          onlyNumbers: '5511982731182',
+          value: '5511982731182',
           formatted: '+55 11 98273-1182',
           estate: 'SP',
         },
@@ -17,7 +17,7 @@ describe('Telefone', () => {
         descricao: 'DDD com 0 na frente e número (9 dígitos)',
         entrada: '(027) 97643-0565',
         esperado: {
-          onlyNumbers: '5527976430565',
+          value: '5527976430565',
           formatted: '+55 27 97643-0565',
           estate: 'ES',
         },
@@ -26,7 +26,7 @@ describe('Telefone', () => {
         descricao: 'DDD com 0 na frente e número (8 dígitos)',
         entrada: '027 7643-0565',
         esperado: {
-          onlyNumbers: '552776430565',
+          value: '552776430565',
           formatted: '+55 27 7643-0565',
           estate: 'ES',
         },
@@ -35,7 +35,7 @@ describe('Telefone', () => {
         descricao: 'DDD sem 0 na frente e número (8 dígitos)',
         entrada: '2735577789',
         esperado: {
-          onlyNumbers: '552735577789',
+          value: '552735577789',
           formatted: '+55 27 3557-7789',
           estate: 'ES',
         },
@@ -44,7 +44,7 @@ describe('Telefone', () => {
         descricao: 'Número completo com + (9 dígitos)',
         entrada: '+55 11 97643-0565',
         esperado: {
-          onlyNumbers: '5511976430565',
+          value: '5511976430565',
           formatted: '+55 11 97643-0565',
           estate: 'SP',
         },
@@ -54,7 +54,7 @@ describe('Telefone', () => {
     it.each(casos)('$descripcion', ({ entrada, esperado }) => {
       const tel = new Telefone(entrada)
       expect(tel.isValid()).toBe(true)
-      expect(tel.onlyNumbers).toBe(esperado.onlyNumbers)
+      expect(tel.value).toBe(esperado.value)
       expect(tel.formatted).toBe(esperado.formatted)
       expect(tel.country).toBe('BR')
       expect(tel.estate).toBe(esperado.estate)
@@ -75,7 +75,7 @@ describe('Telefone', () => {
       })
 
       expect(tel.isValid()).toBe(true)
-      expect(tel.onlyNumbers).toBe('5527976434333')
+      expect(tel.value).toBe('5527976434333')
       expect(tel.formatted).toBe('+55 27 97643-4333')
       expect(tel.country).toBe('BR')
       expect(tel.estate).toBe('ES')
@@ -92,11 +92,16 @@ describe('Telefone', () => {
       })
 
       expect(tel.isValid()).toBe(true)
-      expect(tel.onlyNumbers).toBe('127976434333')
+      expect(tel.value).toBe('127976434333')
       expect(tel.formatted).toBe('+1 27 97643-4333')
       expect(tel.country).toBe('US')
       expect(tel.estate).toBeNull()
       expect(tel.validation).toBe('Validação de código de país')
+    })
+
+    it('retorna value e onlyNumbers com mesmo conteúdo (backward compat)', () => {
+      const tel = new Telefone('11 9 8273 1182')
+      expect(tel.value).toBe(tel.onlyNumbers)
     })
   })
 
