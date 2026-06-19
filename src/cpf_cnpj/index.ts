@@ -2,6 +2,14 @@ import { IBaseClassNumbers, ValidConfig } from '../types/base_class.js'
 
 type DocType = 'CPF' | 'CNPJ' | 'INVALID'
 
+function charToNumber(c: string): number {
+  const code = c.charCodeAt(0)
+  if (code >= 48 && code <= 57) return code - 48       // 0-9
+  if (code >= 65 && code <= 90) return code - 55        // A-Z → 10-35
+  if (code >= 97 && code <= 122) return code - 87       // a-z → 10-35
+  return NaN
+}
+
 class CpfCnpj implements IBaseClassNumbers {
   private _docId: string
   private _docType: DocType
@@ -9,7 +17,7 @@ class CpfCnpj implements IBaseClassNumbers {
   private static readonly VERSION = '1.0.0'
 
   constructor(numDoc: string | number) {
-    const doc = String(numDoc).replace(/[^\d]+/g, '')
+    const doc = String(numDoc).replace(/[^0-9A-Za-z]+/g, '')
     this._docId = doc
     if (doc.length === 11 && this.isCpfValid()) {
       this._docType = 'CPF'
@@ -41,12 +49,12 @@ class CpfCnpj implements IBaseClassNumbers {
 
     if (this._docType === 'CPF') {
       return this._docId.replace(
-        /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
+        /^([0-9A-Za-z]{3})([0-9A-Za-z]{3})([0-9A-Za-z]{3})(\d{2})$/,
         '$1.$2.$3-$4'
       )
     }
     return this._docId.replace(
-      /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+      /^([0-9A-Za-z]{2})([0-9A-Za-z]{3})([0-9A-Za-z]{3})([0-9A-Za-z]{4})(\d{2})$/,
       '$1.$2.$3/$4-$5'
     )
   }
@@ -100,9 +108,10 @@ class CpfCnpj implements IBaseClassNumbers {
   }
 
   static newCnpj(): CpfCnpj {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     let doc_id = ''
     for (let i = 0; i < 12; i += 1) {
-      doc_id += Math.floor(Math.random() * 9)
+      doc_id += chars[Math.floor(Math.random() * chars.length)]
     }
     doc_id += this.CnpjVerifierDigits(doc_id)
     doc_id += this.CnpjVerifierDigits(doc_id)
@@ -146,11 +155,18 @@ class CpfCnpj implements IBaseClassNumbers {
       '99999999999999',
     ]
     if (blocklist.includes(this._docId)) return false
-    return true
+
+    if (/^([0-9A-Za-z])\1{13}$/.test(this._docId)) return false
+
+    let numbers = this._docId.slice(0, 12)
+    numbers += CpfCnpj.CnpjVerifierDigits(numbers)
+    numbers += CpfCnpj.CnpjVerifierDigits(numbers)
+
+    return numbers.slice(-2) === this._docId.slice(-2)
   }
 
   private static CpfVerifierDigits(doc_ident: string): number {
-    const numbers = doc_ident.split('').map((number) => parseInt(number, 10))
+    const numbers = doc_ident.split('').map((c) => charToNumber(c))
     const modulus = numbers.length + 1
     const multiplied = numbers.map(
       (number, index) => number * (modulus - index)
@@ -164,7 +180,7 @@ class CpfCnpj implements IBaseClassNumbers {
     const reverse = doc_ident
       .split('')
       .reduce((buffer: number[], number: string) => {
-        return [parseInt(number, 10)].concat(buffer)
+        return [charToNumber(number)].concat(buffer)
       }, [])
 
     const sum = reverse.reduce((buffer, number) => {
