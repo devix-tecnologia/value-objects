@@ -6,7 +6,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "./dist/esm",
-    "declarationDir": "./dist/esm/types"
+    "declarationDir": "./dist/esm/types",
+    "rootDir": "./src"
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "node_modules"]
 }
