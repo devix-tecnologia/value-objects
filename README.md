@@ -19,7 +19,7 @@ npm i @devix-tecnologia/value-objects
 ```
 
 ## Requirements
-- Node.js >= 18 (Node.js 20 or higher recommended)
+- Node.js >= 22 (Node.js 22 or higher recommended)
 - TypeScript >= 4.5 (optional, for typing)
 
 ## Import
