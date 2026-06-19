@@ -23,16 +23,28 @@
   "scripts": {
     "test": "vitest run",
     "clean": "rm -rf ./dist",
-    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:cjs",
     "build:esm": "tsc -p ./tsconfig.esm.json && mv dist/esm/index.js dist/esm/index.mjs",
     "build:cjs": "tsc -p ./tsconfig.cjs.json",
     "postbuild": "node ./scripts/prepare-package-json",
-    "prepack": "npm run build",
+    "prepack": "pnpm build",
     "semantic-release": "semantic-release",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "lint": "eslint --fix --ext .ts,.tsx --no-error-on-unmatched-pattern --max-warnings=0 --config eslint.config.js src/"
   },
-  "author": "Roberto Seba@Devix Tecnologia 2023",
+  "author": "Devix Tecnologia Ltda",
+  "contributors": [
+    {
+      "name": "Roberto Seba",
+      "github": "https://github.com/robertoseba",
+      "linkedin": "https://www.linkedin.com/in/robertoseba"
+    },
+    {
+      "name": "Sidarta Veloso",
+      "github": "https://github.com/sidartaveloso",
+      "linkedin": "https://www.linkedin.com/in/sidartaveloso"
+    }
+  ],
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
