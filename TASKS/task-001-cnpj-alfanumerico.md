@@ -1,6 +1,6 @@
 # Task 001 — Suporte a CNPJ alfanumérico (Receita Federal) na lib value-objects
 
-Status: in-progress
+Status: done
 Type: feat
 Priority: high
 Assignee: —
