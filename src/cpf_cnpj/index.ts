@@ -9,7 +9,7 @@ class CpfCnpj implements IBaseClassNumbers {
   private static readonly VERSION = '1.0.0'
 
   constructor(numDoc: string | number) {
-    const doc = String(numDoc).replace(/[^\d]+/g, '')
+    const doc = String(numDoc).replace(/[^a-zA-Z0-9]+/g, '').toUpperCase()
     this._docId = doc
     if (doc.length === 11 && this.isCpfValid()) {
       this._docType = 'CPF'
@@ -46,7 +46,7 @@ class CpfCnpj implements IBaseClassNumbers {
       )
     }
     return this._docId.replace(
-      /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+      /^([\dA-Z]{2})([\dA-Z]{3})([\dA-Z]{3})([\dA-Z]{4})([\dA-Z]{2})$/,
       '$1.$2.$3/$4-$5'
     )
   }
@@ -146,7 +146,13 @@ class CpfCnpj implements IBaseClassNumbers {
       '99999999999999',
     ]
     if (blocklist.includes(this._docId)) return false
-    return true
+
+    const base = this._docId.slice(0, 12)
+    const d1 = CpfCnpj.CnpjVerifierDigits(base)
+    const d2 = CpfCnpj.CnpjVerifierDigits(base + String(d1))
+    const expected = String(d1) + String(d2)
+    const actual = this._docId.slice(-2)
+    return expected === actual
   }
 
   private static CpfVerifierDigits(doc_ident: string): number {
@@ -159,12 +165,18 @@ class CpfCnpj implements IBaseClassNumbers {
     return mod < 2 ? 0 : 11 - mod
   }
 
+  private static charToValue(char: string): number {
+    const n = parseInt(char, 10)
+    if (!isNaN(n)) return n
+    return char.charCodeAt(0) - 55
+  }
+
   private static CnpjVerifierDigits(doc_ident: string): number {
     let index = 2
     const reverse = doc_ident
       .split('')
-      .reduce((buffer: number[], number: string) => {
-        return [parseInt(number, 10)].concat(buffer)
+      .reduce((buffer: number[], char: string) => {
+        return [CpfCnpj.charToValue(char)].concat(buffer)
       }, [])
 
     const sum = reverse.reduce((buffer, number) => {

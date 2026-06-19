@@ -26,7 +26,7 @@ describe('CpfCnpj', () => {
       const casos = [
         cpfValido, // sem formatação
         '295.379.955-93', // formatado
-        '295$379\\n955...93', // caracteres confusos
+        '295$379-955...93', // caracteres confusos
       ]
 
       casos.forEach((caso) => {
@@ -45,11 +45,22 @@ describe('CpfCnpj', () => {
     })
 
     it('aceita CNPJ alfanumérico (novo padrão Receita Federal)', () => {
-      const raw = '12ABC345678041'
       const formatted = '12.ABC.345/6780-41'
       const doc = new CpfCnpj(formatted)
       expect(doc.isValid()).toBe(true)
       expect(doc.type).toBe('CNPJ')
+    })
+
+    it('aceita CNPJ alfanumérico em lowercase', () => {
+      const doc = new CpfCnpj('12.abc.345/6780-41')
+      expect(doc.isValid()).toBe(true)
+      expect(doc.type).toBe('CNPJ')
+    })
+
+    it('rejeita CNPJ alfanumérico com dígitos inválidos', () => {
+      const doc = new CpfCnpj('12.ABC.345/6780-00')
+      expect(doc.isValid()).toBe(false)
+      expect(doc.type).toBe('INVALID')
     })
   })
 
@@ -72,6 +83,12 @@ describe('CpfCnpj', () => {
       const doc = new CpfCnpj('12345678000195')
       expect(doc.formatted).toBe('12.345.678/0001-95')
       expect(doc.onlyNumbers).toBe('12345678000195')
+    })
+
+    it('formata CNPJ alfanumérico corretamente', () => {
+      const doc = new CpfCnpj('12ABC345678041')
+      expect(doc.formatted).toBe('12.ABC.345/6780-41')
+      expect(doc.onlyNumbers).toBe('12ABC345678041')
     })
   })
 
@@ -118,6 +135,12 @@ describe('CpfCnpj', () => {
       expect(doc.equals('565.001.770-02')).toBe(false)
     })
 
+    it('compara CNPJs alfanuméricos corretamente', () => {
+      const doc = new CpfCnpj('12.ABC.345/6780-41')
+      expect(doc.equals('12ABC345678041')).toBe(true)
+      expect(doc.equals('12.ABC.345/6780-99')).toBe(false)
+    })
+
     it('implementa toJSON corretamente', () => {
       const doc = new CpfCnpj('295.379.955-93')
       const json = doc.toJSON()
@@ -126,6 +149,19 @@ describe('CpfCnpj', () => {
         type: 'CPF',
         value: '29537995593',
         formatted: '295.379.955-93',
+        isValid: true,
+        version: expect.any(String),
+      })
+    })
+
+    it('implementa toJSON para CNPJ alfanumérico', () => {
+      const doc = new CpfCnpj('12.ABC.345/6780-41')
+      const json = doc.toJSON()
+
+      expect(json).toEqual({
+        type: 'CNPJ',
+        value: '12ABC345678041',
+        formatted: '12.ABC.345/6780-41',
         isValid: true,
         version: expect.any(String),
       })
