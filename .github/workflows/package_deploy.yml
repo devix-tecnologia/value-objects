@@ -43,6 +43,9 @@ jobs:
       - name: 🔨 Test project
         run: pnpm test
 
+      - name: 📦 Test package (require e import do tarball)
+        run: pnpm test:pacote
+
       - name: Release to NPM
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

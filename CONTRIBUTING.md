@@ -29,6 +29,10 @@ Abaixo estão as diretrizes para ajudar você a colaborar de forma eficiente e o
   ```bash
   npm test
   ```
+- O carregamento do pacote como o consumidor o recebe (`require` e `import`) tem um teste próprio, que constrói, empacota e instala o tarball numa pasta temporária. Ele não roda no `npm test`; rode-o ao mexer no build, no `package.json` ou em `scripts/`:
+  ```bash
+  pnpm test:pacote
+  ```
 
 ## Revisão
 - Seu Pull Request será revisado por um mantenedor
