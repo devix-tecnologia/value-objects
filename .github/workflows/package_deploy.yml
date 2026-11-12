@@ -43,21 +43,25 @@ jobs:
       - name: 🔨 Test project
         run: pnpm test
 
+      - name: 📦 Test package (require e import do tarball)
+        run: pnpm test:pacote
+
       - name: Release to NPM
+        if: github.event_name == 'push'
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
       - name: Setup Node for GitHub Packages
-        if: success()
+        if: success() && github.event_name == 'push'
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: 'https://npm.pkg.github.com'
 
       - name: Publish to GitHub Packages
-        if: success()
+        if: success() && github.event_name == 'push'
         run: |
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
           echo "@devix-tecnologia:registry=https://npm.pkg.github.com" >> .npmrc
