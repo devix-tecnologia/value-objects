@@ -2,18 +2,28 @@ import { readdir, existsSync, writeFile } from "fs";
 import { join } from "path";
 
 const buildDir = "./dist";
-function createEsmModulePackageJson() {
+
+// O package.json da raiz declara "type": "module". Cada pasta do build precisa
+// do próprio package.json dizendo o formato dos seus arquivos .js; sem ele,
+// dist/cjs herda "module" da raiz e o require() do pacote quebra.
+const moduleTypeByDir = {
+  esm: "module",
+  cjs: "commonjs",
+};
+
+function createModulePackageJsons() {
   readdir(buildDir, function (err, dirs) {
     if (err) {
       throw err;
     }
     dirs.forEach(function (dir) {
-      if (dir === "esm") {
+      var moduleType = moduleTypeByDir[dir];
+      if (moduleType) {
         var packageJsonFile = join(buildDir, dir, "/package.json");
         if (!existsSync(packageJsonFile)) {
           writeFile(
             packageJsonFile,
-            new Uint8Array(Buffer.from('{"type": "module"}')),
+            new Uint8Array(Buffer.from(`{"type": "${moduleType}"}`)),
             function (err) {
               if (err) {
                 throw err;
@@ -26,4 +36,4 @@ function createEsmModulePackageJson() {
   });
 }
 
-createEsmModulePackageJson();
+createModulePackageJsons();
